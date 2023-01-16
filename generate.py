@@ -25,7 +25,7 @@ def main():
         with open(os.path.join('text', md_file)) as fh:
             fh.readline()
             page = {}
-            page['id'] = md_file[0:-3]
+            page['id'] = int(md_file[0:-3])
             for row in fh:
                 if row.startswith('---'):
                     break
@@ -36,6 +36,17 @@ def main():
             page['text'] = fh.read()
             #print(page)
             pages.append(page)
+    pages.sort(key=lambda page: page['id'])
+    for ix in range(len(pages)):
+        if ix == 0:
+            pages[ix]['prev_message'] = pages[-1]['id']
+        else:
+            pages[ix]['prev_message'] = pages[ix - 1]['id']
+
+        if ix == len(pages) - 1:
+            pages[ix]['next_message'] = pages[0]['id']
+        else:
+            pages[ix]['next_message'] = pages[ix + 1]['id']
 
     render('index.html', '_site/index.html',
         title = "Haberes Buenos de Buly",
