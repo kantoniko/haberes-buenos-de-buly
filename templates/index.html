@@ -1,9 +1,15 @@
-<h1>{{title}}</h1>
+{% include 'header.html' %}
 
-<img width="500px" src="front.jpeg" alt="Haberes Buenos de Buly">
 
-<ul>
-{% for page in pages %}
-   <li><a href="{{page.id}}">{{page.id}} - {{page.titulo}}</a></li>
-{% endfor %}
-</ul>
+
+  <div class="content">
+    <img width="500px" src="front.jpeg" alt="Haberes Buenos de Buly">
+
+    <ul>
+    {% for page in pages %}
+       <li class="list-item"><a href="{{page.id}}">{{page.id}} - {{page.titulo}}</a></li>
+    {% endfor %}
+    </ul>
+  </div>
+
+{% include 'footer.html' %}

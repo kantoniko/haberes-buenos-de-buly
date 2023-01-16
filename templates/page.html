@@ -1,19 +1,23 @@
-<h1>{{title}}</h1>
+{% include 'header.html' %}
 
+  <div class="content">
+    <audio controls>
+      <source src="{{page.id}}.mp3" type="audio/mp3">
+      Your browser does not support the audio element.
+    </audio>
 
-<audio controls>
-    <source src="{{page.id}}.mp3" type="audio/mp3">
-    Your browser does not support the audio element.
-</audio>
-
-<pre>
-{{page.text}}
-</pre>
+    {% for para in page.paragraphs %}
+        <div>
+        {{para}}
+        </div>
+    {% endfor %}
 
     <div class="content">
     <a class="button" href="{{page.prev_message}}">⬅️</a>
     <a class="button" href=".">⬆️</a>
     <a class="button" href="{{page.next_message}}">➡️</a>
     </div>
+  </div>
 
 
+{% include 'footer.html' %}

@@ -34,6 +34,7 @@ def main():
                 page[field] = value
 
             page['text'] = fh.read()
+            page['paragraphs'] = page['text'].split("\n")
             #print(page)
             pages.append(page)
     pages.sort(key=lambda page: page['id'])
