@@ -55,7 +55,7 @@ def main():
     )
     for page in pages:
         render('page.html', f'_site/{page["id"]}.html',
-            title = page['titulo'],
+            title = f"{page['id']} - {page['titulo']}",
             page = page,
         )
 
