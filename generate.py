@@ -16,6 +16,7 @@ def main():
 
     for filename in os.listdir('sound'):
         shutil.copy(os.path.join('sound', filename), os.path.join('_site', filename))
+    shutil.copy('front.jpeg', '_site/front.jpeg')
 
     pages = []
     md_files = os.listdir('text')
