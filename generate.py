@@ -35,14 +35,7 @@ def generate(pages):
             page = page,
         )
 
-
-def main():
-    os.makedirs('_site', exist_ok=True)
-
-    for filename in os.listdir('sound'):
-        shutil.copy(os.path.join('sound', filename), os.path.join('_site', filename))
-    shutil.copy('front.jpeg', '_site/front.jpeg')
-
+def collect_pages():
     pages = []
     md_files = os.listdir('text')
     for md_file in md_files:
@@ -62,7 +55,16 @@ def main():
             page['paragraphs'] = page['text'].split("\n")
             #print(page)
             pages.append(page)
+    return pages
 
+def main():
+    os.makedirs('_site', exist_ok=True)
+
+    for filename in os.listdir('sound'):
+        shutil.copy(os.path.join('sound', filename), os.path.join('_site', filename))
+    shutil.copy('front.jpeg', '_site/front.jpeg')
+
+    pages = collect_pages()
     generate(pages)
 
 
