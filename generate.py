@@ -57,15 +57,17 @@ def collect_pages():
             pages.append(page)
     return pages
 
-def main():
-    os.makedirs('_site', exist_ok=True)
-
+def copy_audio():
     for filename in os.listdir('sound'):
         shutil.copy(os.path.join('sound', filename), os.path.join('_site', filename))
     shutil.copy('front.jpeg', '_site/front.jpeg')
 
+def main():
+    os.makedirs('_site', exist_ok=True)
+
     pages = collect_pages()
     generate(pages)
+    copy_audio()
 
 
 
