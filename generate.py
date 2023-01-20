@@ -3,6 +3,10 @@ import pathlib
 import shutil
 from jinja2 import Environment, FileSystemLoader
 
+cwd = pathlib.Path.cwd()
+sound = cwd.joinpath('sound')
+site  = cwd.joinpath('_site')
+
 def render(template, filename, **args):
     templates_dir = pathlib.Path(__file__).parent.joinpath('templates')
     env = Environment(loader=FileSystemLoader(templates_dir), autoescape=True)
@@ -25,12 +29,12 @@ def generate(pages):
         else:
             pages[ix]['next_message'] = pages[ix + 1]['id']
 
-    render('index.html', '_site/index.html',
+    render('index.html', site.joinpath('index.html'),
         title = "Haberes Buenos de Buly",
         pages = pages,
     )
     for page in pages:
-        render('page.html', f'_site/{page["id"]}.html',
+        render('page.html', site.joinpath(f'{page["id"]}.html'),
             title = f"{page['id']} - {page['titulo']}",
             page = page,
         )
@@ -58,9 +62,9 @@ def collect_pages():
     return pages
 
 def copy_audio():
-    for filename in os.listdir('sound'):
-        shutil.copy(os.path.join('sound', filename), os.path.join('_site', filename))
-    shutil.copy('front.jpeg', '_site/front.jpeg')
+    for file in sound.iterdir():
+        shutil.copy(file, site.joinpath(file.name))
+    shutil.copy(cwd.joinpath('front.jpeg'), site.joinpath('front.jpeg'))
 
 def main():
     os.makedirs('_site', exist_ok=True)
