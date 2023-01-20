@@ -11,6 +11,31 @@ def render(template, filename, **args):
     with open(filename, 'w') as fh:
         fh.write(html_content)
 
+
+def generate(pages):
+    pages.sort(key=lambda page: page['id'])
+    for ix in range(len(pages)):
+        if ix == 0:
+            pages[ix]['prev_message'] = pages[-1]['id']
+        else:
+            pages[ix]['prev_message'] = pages[ix - 1]['id']
+
+        if ix == len(pages) - 1:
+            pages[ix]['next_message'] = pages[0]['id']
+        else:
+            pages[ix]['next_message'] = pages[ix + 1]['id']
+
+    render('index.html', '_site/index.html',
+        title = "Haberes Buenos de Buly",
+        pages = pages,
+    )
+    for page in pages:
+        render('page.html', f'_site/{page["id"]}.html',
+            title = f"{page['id']} - {page['titulo']}",
+            page = page,
+        )
+
+
 def main():
     os.makedirs('_site', exist_ok=True)
 
@@ -37,27 +62,8 @@ def main():
             page['paragraphs'] = page['text'].split("\n")
             #print(page)
             pages.append(page)
-    pages.sort(key=lambda page: page['id'])
-    for ix in range(len(pages)):
-        if ix == 0:
-            pages[ix]['prev_message'] = pages[-1]['id']
-        else:
-            pages[ix]['prev_message'] = pages[ix - 1]['id']
 
-        if ix == len(pages) - 1:
-            pages[ix]['next_message'] = pages[0]['id']
-        else:
-            pages[ix]['next_message'] = pages[ix + 1]['id']
-
-    render('index.html', '_site/index.html',
-        title = "Haberes Buenos de Buly",
-        pages = pages,
-    )
-    for page in pages:
-        render('page.html', f'_site/{page["id"]}.html',
-            title = f"{page['id']} - {page['titulo']}",
-            page = page,
-        )
+    generate(pages)
 
 
 
