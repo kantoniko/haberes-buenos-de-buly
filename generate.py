@@ -42,7 +42,7 @@ def generate(pages):
 def collect_pages():
     pages = []
     md_files = os.listdir('text')
-    for md_file in md_files:
+    for md_file in sorted(md_files, key=lambda filename: int(filename[:-3])):
         print(md_file)
         with open(os.path.join('text', md_file)) as fh:
             fh.readline()
