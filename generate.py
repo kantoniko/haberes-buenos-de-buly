@@ -43,11 +43,15 @@ def collect_pages():
     pages = []
     md_files = os.listdir('text')
     for md_file in sorted(md_files, key=lambda filename: int(filename[:-3])):
-        print(md_file)
+        print(md_file, end="")
         with open(os.path.join('text', md_file)) as fh:
             fh.readline()
             page = {}
             page['id'] = int(md_file[0:-3])
+            audio_file = os.path.join('sound', f"{page['id']}.mp3") 
+            if not os.path.exists(audio_file):
+                print("    missing audio", end="")
+            page['audio'] = os.path.exists(audio_file)
             for row in fh:
                 if row.startswith('---'):
                     break
@@ -59,6 +63,7 @@ def collect_pages():
             page['paragraphs'] = page['text'].split("\n")
             #print(page)
             pages.append(page)
+        print("")
     return pages
 
 def copy_audio():

@@ -1,10 +1,14 @@
 {% include 'header.html' %}
 
   <div class="content">
-    <audio controls>
-      <source src="{{page.id}}.mp3" type="audio/mp3">
-      Your browser does not support the audio element.
-    </audio>
+    {% if page.audio %}
+        <audio controls>
+          <source src="{{page.id}}.mp3" type="audio/mp3">
+          Your browser does not support the audio element.
+        </audio>
+    {% else %}
+        Esta pagina no tiene audio.
+    {% endif %}
 
     {% for para in page.paragraphs %}
         <div>
